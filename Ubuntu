@@ -30,7 +30,7 @@ locals {
     })
   }
   data_source_command = "http" == "http" ? "inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg" : "inst.ks=cdrom:/ks.cfg"
-  vm_name             = "ubuntuPackerMachine"
+  vm_name             = "pleasework"
 
 }
 
@@ -40,9 +40,9 @@ locals {
 source "vsphere-iso" "linux-rocky" {
 
   // vCenter Server Endpoint Settings and Credentials
-  vcenter_server      = "xxx"
-  username            = "xxx"
-  password            = "xxx"
+  vcenter_server      = "xx"
+  username            = "xx"
+  password            = "xx"
   insecure_connection = true
 
   // vSphere Settings
@@ -88,6 +88,11 @@ source "vsphere-iso" "linux-rocky" {
   boot_order    = "disk,cdrom"
   boot_wait     = "8s"
   boot_command = [
+        "<enter>",
+        "mkdir ~/packerCreation",
+        "<enter>",
+        "<wait>",
+        "<wait>"
   ]
   ip_wait_timeout   = "20m"
   ip_settle_timeout = "5s"
@@ -96,8 +101,8 @@ source "vsphere-iso" "linux-rocky" {
 
   // Communicator Settings and Credentials
   communicator       = "ssh"
-  ssh_username       = "jose"
-  ssh_password       = "test..123"
+  ssh_username       = "xx"
+  ssh_password       = "xx"
   ssh_port           = 22
   ssh_timeout        = "30m"
 
@@ -109,5 +114,13 @@ source "vsphere-iso" "linux-rocky" {
 
 build {
   sources = ["source.vsphere-iso.linux-rocky"]
+provisioner "shell-local" {
+  inline = [
 
+    "echo 'Hello, World!'",
+    "sudo mkdir ./my_directory123456",
+    "sudo apt-get install -y tar",
+    "sudo apt install apache2 -y"
+  ]
+}
 }
