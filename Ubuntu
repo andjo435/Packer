@@ -66,7 +66,7 @@ source "vsphere-iso" "linux-rocky" {
   cdrom_type           = "sata"
   disk_controller_type = ["pvscsi"]
   storage {
-    disk_size             = 307200
+    disk_size             = 107200
     disk_thin_provisioned = true
   }
   network_adapters {
@@ -96,8 +96,8 @@ source "vsphere-iso" "linux-rocky" {
   ]
   ip_wait_timeout   = "20m"
   ip_settle_timeout = "5s"
-  shutdown_command  = "echo shutdown -P now"
-  shutdown_timeout  = "15m"
+  shutdown_command  = "shutdown -P now"
+  shutdown_timeout  = "5m"
 
   // Communicator Settings and Credentials
   communicator       = "ssh"
