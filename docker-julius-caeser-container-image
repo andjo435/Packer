@@ -1,0 +1,42 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu:20.04",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "export DEBIAN_FRONTEND=noninteractive",
+        "apt-get update",
+        "apt-get install -y apache2 wget",
+        "mkdir -p /var/www/html",
+        "wget -O /var/www/html/caesar.jpg https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Caesar.jpg/471px-Caesar.jpg",
+        "echo '<!DOCTYPE html>' > /var/www/html/index.html",
+        "echo '<html>' >> /var/www/html/index.html",
+        "echo '<head>' >> /var/www/html/index.html",
+        "echo '<title>Julius Caesar</title>' >> /var/www/html/index.html",
+        "echo '</head>' >> /var/www/html/index.html",
+        "echo '<body>' >> /var/www/html/index.html",
+        "echo '<h1>Julius Caesar</h1>' >> /var/www/html/index.html",
+        "echo '<h2>!! THIS PAGE WAS CREATED USING PACKER !!</h2>' >> /var/www/html/index.html",
+        "echo '<p>Gaius Julius Caesar was a Roman general and statesman who played a critical role in the events that led to the demise of the Roman Republic and the rise of the Roman Empire.</p>' >> /var/www/html/index.html",
+        "echo '<a href=\" https://en.wikipedia.org/wiki/Julius_Caesar\" target=\"_blank\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Caesar.jpg/471px-Caesar.jpg\" alt=\"Julius Caesar\" style=\"width:300px;\"></a>' >> /var/www/html/index.html",
+        "echo '</body>' >> /var/www/html/index.html",
+        "echo '</html>' >> /var/www/html/index.html",
+        "echo '#!/bin/bash\napachectl -D FOREGROUND' > /start-apache.sh",
+        "chmod +x /start-apache.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "docker-tag",
+      "repository": "my-apache2-julius-caesar",
+      "tag": "latest"
+    }
+  ]
+}
